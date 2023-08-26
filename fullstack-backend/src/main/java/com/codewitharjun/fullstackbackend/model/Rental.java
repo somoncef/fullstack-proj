@@ -21,6 +21,16 @@ public class Rental {
     private Double totalCost;
     private Boolean status;
 
+    public Rental(Long id, User user, Vehicle vehicle, Date startDate, Date endDate, Double totalCost, Boolean status) {
+        this.id = id;
+        this.user = user;
+        this.vehicle = vehicle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalCost = totalCost;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }
