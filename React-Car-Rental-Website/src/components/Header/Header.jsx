@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,useState  } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
@@ -26,10 +26,14 @@ const navLinks = [
 ];
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.token);
   const menuRef = useRef(null);
 
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+  const filteredNavLinks = navLinks.filter(link => {
+    return !isLoggedIn || link.path !== "/contact";
+  });
 
+  const toggleMenu = () => menuRef.current.classList.toggle("menu__active")
   return (
     <header className="header">
       {/* ============ header top ============ */}
@@ -44,17 +48,43 @@ const Header = () => {
                 </span>
               </div>
             </Col>
-
             <Col lg="6" md="6" sm="6">
-              <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-login-circle-line"></i> Login
-                </Link>
+            <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+  {isLoggedIn ? (
+    
+    <button
+    onClick={() => {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false); 
+    }}
+    className="d-flex align-items-center gap-1"
+    style={{
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'inherit',
+      padding: 0,
+    }}
+  >
+    <i className="ri-user-line"></i> Logout
+  </button>
+  
 
-                <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-user-line"></i> Register
-                </Link>
-              </div>
+  ) : (
+    
+    <>
+      <Link to="/login" className="d-flex align-items-center gap-1">
+        <i className="ri-login-circle-line"></i> Login
+      </Link>
+
+      <Link to="/register" className="d-flex align-items-center gap-1">
+        <i className="ri-user-line"></i> Register
+      </Link>
+    </>
+  )}
+</div>
+
+
             </Col>
           </Row>
         </Container>
@@ -128,7 +158,8 @@ const Header = () => {
 
             <div className="navigation" ref={menuRef} onClick={toggleMenu}>
               <div className="menu">
-                {navLinks.map((item, index) => (
+             
+                {filteredNavLinks.map((item, index) => (
                   <NavLink
                     to={item.path}
                     className={(navClass) =>
