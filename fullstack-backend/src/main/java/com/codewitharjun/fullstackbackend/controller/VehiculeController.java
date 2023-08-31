@@ -25,6 +25,12 @@ public class VehiculeController {
         return Vehiculerepository.findAll();
     }
 
+    @GetMapping("/VehiclesNotRented")
+    List<Vehicle> getAllNotRentedVehicles() {
+        return Vehiculerepository.findByRentedFalse();
+    }
+
+
     @GetMapping("/Vehicle/{id}")
     Vehicle getVehicleById(@PathVariable Long id) {
         return Vehiculerepository.findById(id)
