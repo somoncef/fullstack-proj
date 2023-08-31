@@ -26,9 +26,9 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.token);
+  
   const menuRef = useRef(null);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.token);
   const filteredNavLinks = navLinks.filter(link => {
     return !isLoggedIn || link.path !== "/contact";
   });
@@ -44,7 +44,7 @@ const Header = () => {
               <div className="header__top__left">
                 <span>Need Help?</span>
                 <span className="header__top__help">
-                  <i class="ri-phone-fill"></i> +1-202-555-0149
+                  <i class="ri-phone-fill"></i> +212 688167585
                 </span>
               </div>
             </Col>
@@ -113,8 +113,8 @@ const Header = () => {
                   <i class="ri-earth-line"></i>
                 </span>
                 <div className="header__location-content">
-                  <h4>Bangladesh</h4>
-                  <h6>Sylhet City, Bangladesh</h6>
+                  <h4>Morroco</h4>
+                  <h6>Casablanca, Morroco</h6>
                 </div>
               </div>
             </Col>

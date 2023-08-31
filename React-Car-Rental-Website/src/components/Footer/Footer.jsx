@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem    } from "reactstrap";
 import { Link } from "react-router-dom";
 import "../../styles/footer.css";
 
@@ -19,11 +19,7 @@ const quickLinks = [
     path: "/cars",
     display: "Car Listing",
   },
-  {
-    path: "/blogs",
-    display: "Blog",
-  },
-
+    
   {
     path: "/contact",
     display: "Contact",
@@ -31,6 +27,11 @@ const quickLinks = [
 ];
 
 const Footer = () => {
+  const  isLoggedIn =  !!localStorage.token ; 
+  const filteredNavLinks = quickLinks.filter(link => {
+    return !isLoggedIn || link.path !== "/contact";
+  }); 
+   
   const date = new Date();
   const year = date.getFullYear();
   return (
@@ -49,10 +50,7 @@ const Footer = () => {
               </h1>
             </div>
             <p className="footer__logo-content">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequuntur, distinctio, itaque reiciendis ab cupiditate harum ex
-              quam veniam, omnis expedita animi quibusdam obcaecati mollitia?
-              Delectus et ad illo recusandae temporibus?
+            Welcome to our premier car rental service! With a commitment to excellence and customer satisfaction, we offer a seamless and convenient way to fulfill your transportation needs. Our diverse fleet of vehicles caters to every occasion, whether it's a business trip, family vacation, or special event. Backed by years of experience in the industry, we take pride in delivering top-notch service, well-maintained vehicles, and competitive pricing. Discover the joy of hassle-free travel with us today.
             </p>
           </Col>
 
@@ -60,7 +58,7 @@ const Footer = () => {
             <div className="mb-4">
               <h5 className="footer__link-title">Quick Links</h5>
               <ListGroup>
-                {quickLinks.map((item, index) => (
+                {filteredNavLinks.map((item, index) => (
                   <ListGroupItem key={index} className="p-0 mt-3 quick__link">
                     <Link to={item.path}>{item.display}</Link>
                   </ListGroupItem>
