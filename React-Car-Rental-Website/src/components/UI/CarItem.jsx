@@ -7,8 +7,6 @@ import "../../styles/car-item.css";
 const CarItem = (props) => {
   const { model, year, pricePerDay, gear , image   } = props.item;
 
-  const imagePath = `src/assets/data/carsimages/${image}`; 
-
 
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
