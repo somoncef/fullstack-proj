@@ -1,8 +1,7 @@
  
 import { Col } from "reactstrap";
 import { Link } from "react-router-dom";
-import clo4 from "../../assets/data/carsimages/clio4.jpg" 
-import "../../styles/car-item.css"; 
+ import "../../styles/car-item.css"; 
 
 const CarItem = (props) => {
   const { model, year, pricePerDay, gear , image   } = props.item;
