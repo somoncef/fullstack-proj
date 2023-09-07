@@ -16,9 +16,11 @@ function Login() {
             });
 
             const token = response.data.token;
+            const usernamee=response.data.username;
 
             if (response.data.username === username) {
                 localStorage.setItem("token", token);
+                localStorage.setItem("username", usernamee);
 
 console.log(username,password);
                 navigate('/home');

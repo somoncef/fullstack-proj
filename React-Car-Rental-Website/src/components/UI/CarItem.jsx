@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
  import "../../styles/car-item.css"; 
 
 const CarItem = (props) => {
-  const { model, year, pricePerDay, gear , image   } = props.item;
+  const { model, year, pricePerDay, gear , image,id ,type  } = props.item;
 
 
   return (
@@ -22,7 +22,7 @@ const CarItem = (props) => {
 
           <div className="car__item-info d-flex align-items-center justify-content-between mt-3 mb-4">
             <span className=" d-flex align-items-center gap-1">
-              <i class="ri-car-line"></i> {model}
+              <i class="ri-car-line"></i> {type}
             </span>
             <span className=" d-flex align-items-center gap-1">
               <i class="ri-settings-2-line"></i> {gear}
@@ -33,11 +33,11 @@ const CarItem = (props) => {
           </div>
 
           <button className=" w-50 car__item-btn car__btn-rent">
-            <Link to={`/cars/${model}`}>Rent</Link>
+            <Link to={`/cars/${id}`}>Rent</Link>
           </button>
 
           <button className=" w-50 car__item-btn car__btn-details">
-            <Link to={`/cars/${model}`}>Details</Link>
+            <Link to={`/cars/${id}`}>Details</Link>
           </button>
         </div>
       </div>
