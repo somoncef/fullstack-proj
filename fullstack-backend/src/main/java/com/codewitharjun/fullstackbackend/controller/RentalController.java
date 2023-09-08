@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class RentalController {
     @Autowired
     private RentalRepository Rentalrepository;

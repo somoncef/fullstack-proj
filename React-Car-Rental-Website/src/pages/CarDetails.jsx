@@ -9,16 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker'; 
+import { toast } from 'react-toastify';
 
 const CarDetails = () => {
   const { slug } = useParams();
 const navigate = useNavigate();
 const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [singleCarItem, setFetchedData] = useState([]);
-  const [singleuser, setFetcheduser] = useState([]); 
+  const [singleuser, setFetcheduser] = useState([]);  
   const isLoggedIn=!!localStorage.token ;  
 
   
@@ -53,33 +52,65 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   }, [singleCarItem]); 
 
 async function rent(){  
-   if (selectedDateRange[0]==null || selectedDateRange[1]==null){ 
-    console.log('datetime range not selected');
-    <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert variant="filled" severity="error">
-        datetime range not selected
-  </Alert>
-    </Stack>  
+   if (selectedDateRange[0]==null || selectedDateRange[1]==null){  
+    toast.error('Pick the Dates', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
    }
     else{
-     
-   console.log(selectedDateRange)
+      const startYear = selectedDateRange[0].$y;
+const startMonth = (selectedDateRange[0].$M + 1).toString().padStart(2, '0');  
+const startDay = selectedDateRange[0].$D.toString().padStart(2, '0');
+
+const endYear = selectedDateRange[1].$y;
+const endMonth = (selectedDateRange[1].$M + 1).toString().padStart(2, '0');
+const endDay = selectedDateRange[1].$D.toString().padStart(2, '0');
+
+const startDate = `${startYear}-${startMonth}-${startDay}`;
+const endDate = `${endYear}-${endMonth}-${endDay}`;
+      
+     const user=singleuser;
+     const vehicle=singleCarItem;
     const data = 
    {
-    singleuser,
-    singleCarItem,
-    startDate: `${selectedDateRange[0].$y}-${selectedDateRange[0].$M}-${selectedDateRange[0].$D}` ,
-    endDate: `${selectedDateRange[1].$y}-${selectedDateRange[1].$M}-${selectedDateRange[1].$D}`,
+    "user": {
+      "id": user.id,
+      "username": user.username,
+      "name": user.name,
+      "email": user.email,
+      "password": user.password
+  },
+  "vehicle": {
+      "id": vehicle.id,
+      "model": vehicle.model,
+      "year": vehicle.year,
+      "type": vehicle.type,
+      "capacity": vehicle.capacity,
+      "pricePerDay": vehicle.pricePerDay,
+      "gear": vehicle.gear,
+      "color": vehicle.color,
+      "image": vehicle.image,
+      "rented": vehicle.rented,
+      "brand": vehicle.brand
+  },
+    startDate: startDate ,
+    endDate: endDate,
     totalCost: 0.0,
     status: "False",
    };
-
    const config = {
     headers: {
-      Authorization: `Bearer<${localStorage.token}>`,
+      Authorization: `Bearer <${localStorage.token}>`,
     },
    }; 
-   console.log(data);
+   console.log(data); 
    axios.post('http://localhost:8080/Rental',data,config)
     .then((response) => {
       console.log('Response:', response.data);
@@ -92,7 +123,8 @@ async function rent(){
 } 
     
   return (
-    <Helmet title={singleCarItem.model}>
+    <Helmet title={singleCarItem.model}> 
+    
       <section>
         <Container>
           <Row>
