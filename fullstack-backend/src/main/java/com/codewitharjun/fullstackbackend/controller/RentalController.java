@@ -25,7 +25,7 @@ public class RentalController {
     @PostMapping("/Rental")
     Rental newRental(@RequestBody Rental newRental) {
         Date currentDate = new Date();
-        if (newRental.getStartDate().before(currentDate) || newRental.getEndDate().before(currentDate)) {
+        if (newRental.getStartDate().before(currentDate) || newRental.getEndDate().before(newRental.getStartDate())) {
             throw new InvalidRentalDatesException("Rental dates should be in the future");
         }
         Long vehicleId = newRental.getVehicle().getId();

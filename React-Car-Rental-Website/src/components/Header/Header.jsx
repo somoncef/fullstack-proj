@@ -50,8 +50,8 @@ const Header = () => {
             </Col>
             <Col lg="6" md="6" sm="6">
             <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-  {isLoggedIn ? (
-    
+  {isLoggedIn ? ( 
+  <>
     <button
     onClick={() => {
       localStorage.removeItem("token");
@@ -68,6 +68,24 @@ const Header = () => {
   >
     <i className="ri-user-line"></i> Logout
   </button>
+  <button
+    onClick={() => {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false); 
+    }}
+    className="d-flex align-items-center gap-1"
+    style={{
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'inherit',
+      padding: 0,
+    }}
+  >
+    <i className="ri-user-line"></i> Profile
+  </button>
+  </>
+  
   
 
   ) : (

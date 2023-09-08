@@ -22,7 +22,7 @@ function Login() {
                 localStorage.setItem("token", token);
                 localStorage.setItem("username", usernamee);
 
-console.log(username,password);
+console.log(username,token);
                 navigate('/home');
                 window.location.reload();
             } else {

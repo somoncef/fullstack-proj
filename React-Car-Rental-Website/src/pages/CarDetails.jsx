@@ -6,13 +6,21 @@ import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom"; 
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const CarDetails = () => {
   const { slug } = useParams();
 const navigate = useNavigate();
-   
+const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [singleCarItem, setFetchedData] = useState([]);
-  const isLoggedIn=!!localStorage.token ;
+  const [singleuser, setFetcheduser] = useState([]); 
+  const isLoggedIn=!!localStorage.token ;  
+
   
   useEffect(() => {
     async function fetchData() {
@@ -22,15 +30,67 @@ const navigate = useNavigate();
       } catch (err) {
         console.error("Error fetching data:", err);
       }
-    }
-
+    } 
     fetchData();
   }, [slug]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [singleCarItem]);
+    async function fetchData() {
+      try {
+        const response = await axios.get(`http://localhost:8080/user/username/${localStorage.username}`);
+        setFetcheduser(response.data);  
+        
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    } 
+    fetchData();
+  }, [ ]);
+  
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [singleCarItem]); 
+
+async function rent(){  
+   if (selectedDateRange[0]==null || selectedDateRange[1]==null){ 
+    console.log('datetime range not selected');
+    <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert variant="filled" severity="error">
+        datetime range not selected
+  </Alert>
+    </Stack>  
+   }
+    else{
+     
+   console.log(selectedDateRange)
+    const data = 
+   {
+    singleuser,
+    singleCarItem,
+    startDate: `${selectedDateRange[0].$y}-${selectedDateRange[0].$M}-${selectedDateRange[0].$D}` ,
+    endDate: `${selectedDateRange[1].$y}-${selectedDateRange[1].$M}-${selectedDateRange[1].$D}`,
+    totalCost: 0.0,
+    status: "False",
+   };
+
+   const config = {
+    headers: {
+      Authorization: `Bearer<${localStorage.token}>`,
+    },
+   }; 
+   console.log(data);
+   axios.post('http://localhost:8080/Rental',data,config)
+    .then((response) => {
+      console.log('Response:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    
+  } 
+} 
+    
   return (
     <Helmet title={singleCarItem.model}>
       <section>
@@ -110,6 +170,15 @@ const navigate = useNavigate();
                     {singleCarItem.brand}
                   </span>
                 </div>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DemoContainer components={['DateRangePicker']}>
+    <DateRangePicker
+      localeText={{ start: 'start-Date', end: 'end-Date' }}
+      onChange={(newDateRange) => setSelectedDateRange(newDateRange)}
+    />
+  </DemoContainer>
+</LocalizationProvider>
+                
               </div>
             </Col> 
           </Row>
@@ -119,7 +188,8 @@ const navigate = useNavigate();
   style={{ marginLeft: "50%", marginTop: "2%" }}
   onClick={() => {
     if (isLoggedIn) { 
-      
+
+      rent();
     } else { 
       navigate("/login");  
     }
