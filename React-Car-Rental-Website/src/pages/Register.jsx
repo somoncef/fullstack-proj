@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function Register() {
   const [name, setName] = useState("");
@@ -22,7 +23,16 @@ function Register() {
       console.log(response);
       navigate('/home');
     } catch (err) {
-      alert(err);
+      toast.error(err, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });  
     }
   }
 

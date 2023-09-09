@@ -1,6 +1,7 @@
 import {  useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from 'react-toastify';
 function Login() {
     
    
@@ -26,10 +27,28 @@ console.log(username,token);
                 navigate('/home');
                 window.location.reload();
             } else {
-                alert("Incorrect Email and Password not match");
+              toast.error('Incorrect Email and Password not match', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                }); 
             }
-        } catch (err) {
-            alert(err);
+        } catch (err) { 
+            toast.error(err, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+              }); 
         }
     }
     return (

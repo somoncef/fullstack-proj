@@ -1,8 +1,8 @@
 package com.codewitharjun.fullstackbackend.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -21,13 +21,15 @@ public class CorsConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
 
+        config.addAllowedHeader("Content-Type");
         config.addAllowedHeader("Authorization");
 
         config.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**", config);
-        return new CorsFilter((CorsConfigurationSource) source);
+
+        System.out.println("CorsFilter Applied");
+
+        return new CorsFilter(source);
     }
 }
-
-

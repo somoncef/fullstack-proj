@@ -78,48 +78,49 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
       
      const user=singleuser;
      const vehicle=singleCarItem;
-    const data = 
-   {
-    "user": {
-      "id": user.id,
-      "username": user.username,
-      "name": user.name,
-      "email": user.email,
-      "password": user.password
-  },
-  "vehicle": {
-      "id": vehicle.id,
-      "model": vehicle.model,
-      "year": vehicle.year,
-      "type": vehicle.type,
-      "capacity": vehicle.capacity,
-      "pricePerDay": vehicle.pricePerDay,
-      "gear": vehicle.gear,
-      "color": vehicle.color,
-      "image": vehicle.image,
-      "rented": vehicle.rented,
-      "brand": vehicle.brand
-  },
-    startDate: startDate ,
-    endDate: endDate,
-    totalCost: 0.0,
-    status: "False",
-   };
-   const config = {
-    headers: {
-      Authorization: `Bearer <${localStorage.token}>`,
-    },
-   }; 
-   console.log(data); 
-   axios.post('http://localhost:8080/Rental',data,config)
-    .then((response) => {
-      console.log('Response:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+     const data = {
+      "user": {
+        "id": user.id,
+        "username": user.username,
+        "name": user.name,
+        "email": user.email,
+        "password": user.password
+      },
+      "vehicle": {
+        "id": vehicle.id,
+        "model": vehicle.model,
+        "year": vehicle.year,
+        "type": vehicle.type,
+        "capacity": vehicle.capacity,
+        "pricePerDay": vehicle.pricePerDay,
+        "gear": vehicle.gear,
+        "color": vehicle.color,
+        "image": vehicle.image,
+        "rented": vehicle.rented,
+        "brand": vehicle.brand
+      },
+      startDate: startDate,
+      endDate: endDate,
+      totalCost: 0.0,  
+      status: false,   
+    };
     
-  } 
+    const config = {
+      headers: {
+        Authorization: `Bearer <${localStorage.token}>`,
+      },
+    };
+    
+    console.log(data);
+    
+    axios.post('http://localhost:8080/Rental', data, config)
+      .then((response) => {
+        console.log('Response:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
 } 
     
   return (
