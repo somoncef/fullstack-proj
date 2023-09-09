@@ -21,20 +21,9 @@ public class Vehicle {
     private String color;
     private String image;
     private Boolean rented = false;
+    private String brand;
 
-    public Vehicle(Long id, String model, Long year, String type, Integer capacity, Float pricePerDay, String gear, String color, String image, Boolean rented, String brand) {
-        this.id = id;
-        this.model = model;
-        this.year = year;
-        this.type = type;
-        this.capacity = capacity;
-        this.pricePerDay = pricePerDay;
-        this.gear = gear;
-        this.color = color;
-        this.image = image;
-        this.rented = rented;
-        this.brand = brand;
-    }
+
 
     public String getImage() {
         return image;
@@ -124,7 +113,7 @@ public class Vehicle {
         this.brand = brand;
     }
 
-    private String brand;
+
 
 
 

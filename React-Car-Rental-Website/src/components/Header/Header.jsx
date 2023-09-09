@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,useState  } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
@@ -26,10 +26,14 @@ const navLinks = [
 ];
 
 const Header = () => {
+  
   const menuRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.token);
+  const filteredNavLinks = navLinks.filter(link => {
+    return !isLoggedIn || link.path !== "/contact";
+  });
 
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
-
+  const toggleMenu = () => menuRef.current.classList.toggle("menu__active")
   return (
     <header className="header">
       {/* ============ header top ============ */}
@@ -40,21 +44,65 @@ const Header = () => {
               <div className="header__top__left">
                 <span>Need Help?</span>
                 <span className="header__top__help">
-                  <i class="ri-phone-fill"></i> +1-202-555-0149
+                  <i class="ri-phone-fill"></i> +212 688167585
                 </span>
               </div>
             </Col>
-
             <Col lg="6" md="6" sm="6">
-              <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-login-circle-line"></i> Login
-                </Link>
+            <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+  {isLoggedIn ? ( 
+  <>
+    <button
+    onClick={() => {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false); 
+    }}
+    className="d-flex align-items-center gap-1"
+    style={{
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'inherit',
+      padding: 0,
+    }}
+  >
+    <i className="ri-user-line"></i> Logout
+  </button>
+  <button
+    onClick={() => {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false); 
+    }}
+    className="d-flex align-items-center gap-1"
+    style={{
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'inherit',
+      padding: 0,
+    }}
+  >
+    <i className="ri-user-line"></i> Profile
+  </button>
+  </>
+  
+  
 
-                <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-user-line"></i> Register
-                </Link>
-              </div>
+  ) : (
+    
+    <>
+      <Link to="/login" className="d-flex align-items-center gap-1">
+        <i className="ri-login-circle-line"></i> Login
+      </Link>
+
+      <Link to="/register" className="d-flex align-items-center gap-1">
+        <i className="ri-user-line"></i> Register
+      </Link>
+    </>
+  )}
+</div>
+
+
             </Col>
           </Row>
         </Container>
@@ -83,8 +131,8 @@ const Header = () => {
                   <i class="ri-earth-line"></i>
                 </span>
                 <div className="header__location-content">
-                  <h4>Bangladesh</h4>
-                  <h6>Sylhet City, Bangladesh</h6>
+                  <h4>Morroco</h4>
+                  <h6>Casablanca, Morroco</h6>
                 </div>
               </div>
             </Col>
@@ -128,7 +176,8 @@ const Header = () => {
 
             <div className="navigation" ref={menuRef} onClick={toggleMenu}>
               <div className="menu">
-                {navLinks.map((item, index) => (
+             
+                {filteredNavLinks.map((item, index) => (
                   <NavLink
                     to={item.path}
                     className={(navClass) =>

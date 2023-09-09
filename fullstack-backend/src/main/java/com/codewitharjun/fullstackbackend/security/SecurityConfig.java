@@ -18,18 +18,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
+                .antMatchers("/user").permitAll()
+                .antMatchers("/users").permitAll()
+                .antMatchers("/VehiclesNotRented").permitAll()
+                .antMatchers("/Vehicles").permitAll()
+                .antMatchers("/Vehicle").permitAll()
+                .antMatchers("/Vehicle/{id}").permitAll()
+                .antMatchers("/user/username/{username}").permitAll()
+                .antMatchers("/Rentals").permitAll()
                 .anyRequest().authenticated();
     }
 
@@ -38,4 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

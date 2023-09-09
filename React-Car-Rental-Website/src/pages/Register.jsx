@@ -1,71 +1,108 @@
-import {  useState } from "react";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 function Register() {
-  
-    const [employeename, setEmployeename] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    async function save(event) {
-        event.preventDefault();
-        try {
-          await axios.post("http://localhost:8085/api/v1/employee/save", {
-          employeename: employeename,
-          email: email,
-          password: password,
-          });
-          alert("Employee Registation Successfully");
-        } catch (err) {
-          alert(err);
-        }
-      }
-  
-    return (
-    <div>
-    <div class="container mt-4" >
-    <div class="card">
-            <h1>Student Registation</h1>
-    
-    <form>
-        <div class="form-group">
-          <label>Employee name</label>
-          <input type="text"  class="form-control" id="employeename" placeholder="Enter Name"
-          
-          value={employeename}
-          onChange={(event) => {
-            setEmployeename(event.target.value);
-          }}
-          />
-        </div>
-        <div class="form-group">
-          <label>email</label>
-          <input type="email"  class="form-control" id="email" placeholder="Enter Email"
-          
-          value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-          
-          />
- 
-        </div>
-        <div class="form-group">
-            <label>password</label>
-            <input type="password"  class="form-control" id="password" placeholder="Enter password"
-            
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-            
-            />
-          </div>
-        <button type="submit" class="btn btn-primary mt-4" onClick={save} >Save</button>
-       
-      </form>
-    </div>
-    </div>
-     </div>
-    );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [username, setUsername] = useState(""); 
+  const [password, setPassword] = useState("");
+
+  async function save(event) {
+    event.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8080/user", {
+        name: name,
+        email: email,
+        username: username,
+        password: password,
+      });
+      alert("User Registration Successful");
+      console.log(response);
+      navigate('/home');
+    } catch (err) {
+      toast.error(err, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });  
+    }
   }
-  
-  export default Register;
+
+  return (
+    <div>
+      <div className="container mt-4">
+        <div className="card">
+          <h1>Registration</h1>
+          <form>
+          <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                placeholder="Enter Username"
+                value={username}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+              />
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                placeholder="Enter Name"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              />
+            </div>
+            
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary mt-4" onClick={save}>
+              Save
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Register;
