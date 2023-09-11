@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class VehiculeController {
 
     @Autowired
@@ -24,6 +23,12 @@ public class VehiculeController {
     List<Vehicle> getAllVehicles() {
         return Vehiculerepository.findAll();
     }
+
+    @GetMapping("/VehiclesNotRented")
+    List<Vehicle> getAllNotRentedVehicles() {
+        return Vehiculerepository.findByRentedFalse();
+    }
+
 
     @GetMapping("/Vehicle/{id}")
     Vehicle getVehicleById(@PathVariable Long id) {

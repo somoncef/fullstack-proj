@@ -21,6 +21,7 @@ public class Vehicle {
     private String color;
     private String image;
     private Boolean rented = false;
+    private String brand;
 
 
 
@@ -112,7 +113,7 @@ public class Vehicle {
         this.brand = brand;
     }
 
-    private String brand;
+
 
 
 
