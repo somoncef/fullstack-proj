@@ -107,13 +107,13 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
     
     const config = {
       headers: {
-        Authorization: `Bearer <${localStorage.token}>`,
+        Authorization: `Bearer ${localStorage.token}`, 
       },
     };
     
     console.log(data);
     
-    axios.post('http://localhost:8080/Rental', data, config)
+    axios.post('http://localhost:8080/Rental',data,config)
       .then((response) => {
         console.log('Response:', response.data);
       })
@@ -139,7 +139,7 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
 
                 <div className=" d-flex align-items-center gap-5 mb-4 mt-3">
                   <h6 className="rent__price fw-bold fs-4">
-                    ${singleCarItem.pricePerDay}.00 / Day
+                      {singleCarItem.pricePerDay}.00 Mad/ Day
                   </h6>
 
                   
