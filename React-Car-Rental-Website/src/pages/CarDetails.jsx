@@ -17,8 +17,10 @@ const CarDetails = () => {
 const navigate = useNavigate();
 const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [singleCarItem, setFetchedData] = useState([]);
-  const [singleuser, setFetcheduser] = useState([]);  
-  const isLoggedIn=!!localStorage.token ;  
+  const [singleuser, setFetcheduser] = useState([1]);  
+  const [Rentals, setRentals] = useState([]);  
+
+  const isLoggedIn=!!localStorage.token; 
 
   
   useEffect(() => {
@@ -37,14 +39,19 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
     async function fetchData() {
       try {
         const response = await axios.get(`http://localhost:8080/user/username/${localStorage.username}`);
-        setFetcheduser(response.data);  
-        
+
+        setFetcheduser(response.data);
+        if (singleuser[0]!==1){
+        const response2 = await axios.get(`http://localhost:8080/user/username/${localStorage.username}/rentals`);
+        setRentals(response2.data); 
+          console.log(response2.data);
+          }
       } catch (err) {
         console.error("Error fetching data:", err);
       }
     } 
     fetchData();
-  }, [ ]);
+  }, [singleuser]);
   
 
   useEffect(() => {
@@ -113,7 +120,7 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
     
     console.log(data);
     
-    axios.post('http://localhost:8080/Rental',data,config)
+    axios.post('http://localhost:8080/Rental',data)
       .then((response) => {
         console.log('Response:', response.data);
       })
@@ -220,9 +227,11 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
   variant="contained"
   style={{ marginLeft: "50%", marginTop: "2%" }}
   onClick={() => {
-    if (isLoggedIn) { 
-
+    if (isLoggedIn) {  
       rent();
+    }
+    else if (Rentals[0] !== null) {
+      navigate("/profile");
     } else { 
       navigate("/login");  
     }

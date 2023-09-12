@@ -2,7 +2,9 @@ package com.codewitharjun.fullstackbackend.controller;
 
 import com.codewitharjun.fullstackbackend.exception.UserNotFoundException;
 import com.codewitharjun.fullstackbackend.exception.UsernameNotFoundException;
+import com.codewitharjun.fullstackbackend.model.Rental;
 import com.codewitharjun.fullstackbackend.model.User;
+import com.codewitharjun.fullstackbackend.repository.RentalRepository;
 import com.codewitharjun.fullstackbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,8 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    @Autowired
+    private RentalRepository Rentalrepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -54,7 +58,13 @@ public class UserController {
                     return userRepository.save(user);
                 }).orElseThrow(() -> new UserNotFoundException(id));
     }
+    @GetMapping("/user/username/{username}/rentals")
+    List<Rental> getRentalsByUsername(@PathVariable String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
+        return userRepository.findByUser(user);
+    }
     @DeleteMapping("/user/{id}")
     String deleteUser(@PathVariable Long id){
         if(!userRepository.existsById(id)){
