@@ -17,6 +17,27 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String number;
+    private String adress;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+
+
 
     @Override
     public String toString() {

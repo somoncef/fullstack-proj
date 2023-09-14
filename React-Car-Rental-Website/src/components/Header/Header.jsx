@@ -3,6 +3,8 @@ import React, { useRef,useState  } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const navLinks = [
   {
@@ -26,7 +28,7 @@ const navLinks = [
 ];
 
 const Header = () => {
-  
+  const navigate = useNavigate();
   const menuRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.token);
   const filteredNavLinks = navLinks.filter(link => {
@@ -56,6 +58,7 @@ const Header = () => {
     onClick={() => {
       localStorage.removeItem("token");
       setIsLoggedIn(false); 
+      navigate("/home");
     }}
     className="d-flex align-items-center gap-1"
     style={{
@@ -70,8 +73,7 @@ const Header = () => {
   </button>
   <button
     onClick={() => {
-      localStorage.removeItem("token");
-      setIsLoggedIn(false); 
+      navigate("/profile");
     }}
     className="d-flex align-items-center gap-1"
     style={{
@@ -118,7 +120,7 @@ const Header = () => {
                   <Link to="/home" className=" d-flex align-items-center gap-2">
                     <i class="ri-car-line"></i>
                     <span>
-                      Rent Car <br /> Service
+                    luxury <br /> rental
                     </span>
                   </Link>
                 </h1>

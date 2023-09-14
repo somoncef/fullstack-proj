@@ -16,8 +16,7 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
-    private RentalRepository Rentalrepository;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -55,15 +54,10 @@ public class UserController {
                     user.setUsername(newUser.getUsername());
                     user.setName(newUser.getName());
                     user.setEmail(newUser.getEmail());
+                    user.setAdress(newUser.getAdress());
+                    user.setNumber(newUser.getNumber());
                     return userRepository.save(user);
                 }).orElseThrow(() -> new UserNotFoundException(id));
-    }
-    @GetMapping("/user/username/{username}/rentals")
-    List<Rental> getRentalsByUsername(@PathVariable String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-
-        return userRepository.findByUser(user);
     }
     @DeleteMapping("/user/{id}")
     String deleteUser(@PathVariable Long id){

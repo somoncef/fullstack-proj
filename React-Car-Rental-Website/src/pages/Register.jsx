@@ -9,6 +9,8 @@ function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState("");
+  const [adress, setadress] = useState("");
+  const [number, setnumber] = useState("");
 
   async function save(event) {
     event.preventDefault();
@@ -18,6 +20,8 @@ function Register() {
         email: email,
         username: username,
         password: password,
+        number:number,
+        adress:adress
       });
       alert("User Registration Successful");
       console.log(response);
@@ -92,6 +96,32 @@ function Register() {
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>number</label>
+              <input
+                type="number"
+                className="form-control"
+                id="number"
+                placeholder="Enter number"
+                value={number}
+                onChange={(event) => {
+                  setnumber(event.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>adress</label>
+              <input
+                type="adress"
+                className="form-control"
+                id="adress"
+                placeholder="Enter adress"
+                value={adress}
+                onChange={(event) => {
+                  setadress(event.target.value);
                 }}
               />
             </div>

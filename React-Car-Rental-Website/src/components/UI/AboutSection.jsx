@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import "../../styles/about-section.css";
-import aboutImg from "../../assets/all-images/cars-img/bmw-offer.png";
+import aboutImg from "../../assets/all-images/cars-img/luxc.jpg";
 
 const AboutSection = ({ aboutClass }) => {
   return (
@@ -40,10 +40,11 @@ const AboutSection = ({ aboutClass }) => {
           </Col>
 
           <Col lg="6" md="6">
-            <div className="about__img">
-              <img src={aboutImg} alt="" className="w-100" />
-            </div>
-          </Col>
+  <div className="about__img">
+    <img src={aboutImg} alt="" className="w-100" style={{ height: '500px' }} />
+  </div>
+</Col>
+
         </Row>
       </Container>
     </section>

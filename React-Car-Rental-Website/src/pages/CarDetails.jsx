@@ -18,8 +18,7 @@ const navigate = useNavigate();
 const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [singleCarItem, setFetchedData] = useState([]);
   const [singleuser, setFetcheduser] = useState([1]);  
-  const [Rentals, setRentals] = useState([]);  
-
+ 
   const isLoggedIn=!!localStorage.token; 
 
   
@@ -41,17 +40,13 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
         const response = await axios.get(`http://localhost:8080/user/username/${localStorage.username}`);
 
         setFetcheduser(response.data);
-        if (singleuser[0]!==1){
-        const response2 = await axios.get(`http://localhost:8080/user/username/${localStorage.username}/rentals`);
-        setRentals(response2.data); 
-          console.log(response2.data);
-          }
+        
       } catch (err) {
         console.error("Error fetching data:", err);
       }
     } 
     fetchData();
-  }, [singleuser]);
+  },[]);
   
 
   useEffect(() => {
@@ -126,6 +121,17 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
       })
       .catch((error) => {
         console.error('Error:', error);
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        
       });
     }
 } 
@@ -230,9 +236,7 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
     if (isLoggedIn) {  
       rent();
     }
-    else if (Rentals[0] !== null) {
-      navigate("/profile");
-    } else { 
+     else { 
       navigate("/login");  
     }
   }}
