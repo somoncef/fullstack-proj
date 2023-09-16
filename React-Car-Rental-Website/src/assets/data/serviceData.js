@@ -1,8 +1,4 @@
-const serviceData = [
-   
-
-  
-
+const serviceData = [ 
   {
     id: 3,
     title: "Unlimited Miles Car Rental",

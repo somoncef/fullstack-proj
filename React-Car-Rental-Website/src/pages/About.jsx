@@ -50,7 +50,7 @@ const About = () => {
 
                   <div>
                     <h6 className="section__subtitle">Need Any Help?</h6>
-                    <h4>+00123456789</h4>
+                    <h4>+212 688167585</h4>
                   </div>
                 </div>
               </div>

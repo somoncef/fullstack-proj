@@ -17,8 +17,9 @@ const CarDetails = () => {
 const navigate = useNavigate();
 const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [singleCarItem, setFetchedData] = useState([]);
-  const [singleuser, setFetcheduser] = useState([]);  
-  const isLoggedIn=!!localStorage.token ;  
+  const [singleuser, setFetcheduser] = useState([1]);  
+ 
+  const isLoggedIn=!!localStorage.token; 
 
   
   useEffect(() => {
@@ -37,14 +38,15 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
     async function fetchData() {
       try {
         const response = await axios.get(`http://localhost:8080/user/username/${localStorage.username}`);
-        setFetcheduser(response.data);  
+
+        setFetcheduser(response.data);
         
       } catch (err) {
         console.error("Error fetching data:", err);
       }
     } 
     fetchData();
-  }, [ ]);
+  },[]);
   
 
   useEffect(() => {
@@ -113,12 +115,23 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
     
     console.log(data);
     
-    axios.post('http://localhost:8080/Rental',data,config)
+    axios.post('http://localhost:8080/Rental',data)
       .then((response) => {
         console.log('Response:', response.data);
       })
       .catch((error) => {
         console.error('Error:', error);
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        
       });
     }
 } 
@@ -220,10 +233,10 @@ const endDate = `${endYear}-${endMonth}-${endDay}`;
   variant="contained"
   style={{ marginLeft: "50%", marginTop: "2%" }}
   onClick={() => {
-    if (isLoggedIn) { 
-
+    if (isLoggedIn) {  
       rent();
-    } else { 
+    }
+     else { 
       navigate("/login");  
     }
   }}

@@ -13,8 +13,10 @@ public class Rental {
     @GeneratedValue
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
     private Date startDate;
     private Date endDate;
