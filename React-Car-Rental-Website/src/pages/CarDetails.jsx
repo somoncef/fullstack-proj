@@ -26,7 +26,11 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
     async function fetchData() {
       try {
         const response = await axios.get(`http://localhost:8080/Vehicle/${slug}`);
-        setFetchedData(response.data); 
+        if (response.data) {
+          setFetchedData(response.data);
+        } else {
+          console.error("Response data is undefined.");
+        } 
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -53,88 +57,88 @@ const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
     window.scrollTo(0, 0);
   }, [singleCarItem]); 
 
-async function rent(){  
-   if (selectedDateRange[0]==null || selectedDateRange[1]==null){  
-    toast.error('Pick the Dates', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
+  async function rent() {
+    if (selectedDateRange[0] == null || selectedDateRange[1] == null) {
+      toast.error("Pick the Dates", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
-   }
-    else{
-      const startYear = selectedDateRange[0].$y;
-const startMonth = (selectedDateRange[0].$M + 1).toString().padStart(2, '0');  
-const startDay = selectedDateRange[0].$D.toString().padStart(2, '0');
-
-const endYear = selectedDateRange[1].$y;
-const endMonth = (selectedDateRange[1].$M + 1).toString().padStart(2, '0');
-const endDay = selectedDateRange[1].$D.toString().padStart(2, '0');
-
-const startDate = `${startYear}-${startMonth}-${startDay}`;
-const endDate = `${endYear}-${endMonth}-${endDay}`;
-      
-     const user=singleuser;
-     const vehicle=singleCarItem;
-     const data = {
-      "user": {
-        "id": user.id,
-        "username": user.username,
-        "name": user.name,
-        "email": user.email,
-        "password": user.password
-      },
-      "vehicle": {
-        "id": vehicle.id,
-        "model": vehicle.model,
-        "year": vehicle.year,
-        "type": vehicle.type,
-        "capacity": vehicle.capacity,
-        "pricePerDay": vehicle.pricePerDay,
-        "gear": vehicle.gear,
-        "color": vehicle.color,
-        "image": vehicle.image,
-        "rented": vehicle.rented,
-        "brand": vehicle.brand
-      },
-      startDate: startDate,
-      endDate: endDate,
-      totalCost: 0.0,  
-      status: false,   
-    };
-    
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`, 
-      },
-    };
-    
-    console.log(data);
-    
-    axios.post('http://localhost:8080/Rental',data)
-      .then((response) => {
-        console.log('Response:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        toast.error(error.response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
+    } else {
+      const startYear = selectedDateRange[0]?.$y;
+      const startMonth = (selectedDateRange[0]?.$M + 1).toString().padStart(2, "0");
+      const startDay = selectedDateRange[0]?.$D.toString().padStart(2, "0");
+  
+      const endYear = selectedDateRange[1]?.$y;
+      const endMonth = (selectedDateRange[1]?.$M + 1).toString().padStart(2, "0");
+      const endDay = selectedDateRange[1]?.$D.toString().padStart(2, "0");
+  
+      const startDate = `${startYear}-${startMonth}-${startDay}`;
+      const endDate = `${endYear}-${endMonth}-${endDay}`;
+  
+      const user = singleuser;
+      const vehicle = singleCarItem;
+      const data = {
+        user: {
+          id: user?.id,
+          username: user?.username,
+          name: user?.name,
+          email: user?.email,
+          password: user?.password,
+        },
+        vehicle: {
+          id: vehicle?.id,
+          model: vehicle?.model,
+          year: vehicle?.year,
+          type: vehicle?.type,
+          capacity: vehicle?.capacity,
+          pricePerDay: vehicle?.pricePerDay,
+          gear: vehicle?.gear,
+          color: vehicle?.color,
+          image: vehicle?.image,
+          rented: vehicle?.rented,
+          brand: vehicle?.brand,
+        },
+        startDate: startDate,
+        endDate: endDate,
+        totalCost: 0.0,
+        status: false,
+      };
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      };
+  
+      console.log(data);
+  
+      axios
+        .post("http://localhost:8080/Rental", data)
+        .then((response) => {
+          console.log("Response:", response?.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toast.error(error?.response?.data?.message || "An error occurred", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-        
-      });
+        });
     }
-} 
+  }
+  
     
   return (
     <Helmet title={singleCarItem.model}> 
